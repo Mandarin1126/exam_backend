@@ -1,0 +1,15 @@
+server:
+  port: 8080 # 后端端口
+
+spring:
+  datasource:
+    # ⚠️ 注意修改你的数据库密码
+    url: jdbc:mysql://localhost:3306/exam_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root # <--- 你的MySQL密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml # 扫描 XML 映射文件
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰命名转换 (user_name -> userName)
