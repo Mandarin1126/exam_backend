@@ -17,5 +17,5 @@ public class Comment {
     private Integer reportCount;
 
     // 非数据库字段（用于前端显示）
-    private String nickname;
+    private String username;
 }

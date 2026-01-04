@@ -21,12 +21,19 @@ public interface UserMapper {
     // --- 管理员用的 ---
 
     // 获取所有用户
-    @Select("SELECT * FROM sys_user")
+    @Select("SELECT u.*, IFNULL(SUM(c.report_count), 0) as totalReportCount " +
+            "FROM sys_user u " +
+            "LEFT JOIN sys_comment c ON u.id = c.user_id " +
+            "GROUP BY u.id " +
+            "ORDER BY totalReportCount DESC") // 举报多的排前面，方便管理员抓人
     List<User> selectList();
 
     // 删除用户
     @Delete("DELETE FROM sys_user WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Update("UPDATE sys_user SET status = #{status} WHERE id = #{id}")
+    void updateStatus(@Param("id") Integer id, @Param("status") String status);
 
     // 修改用户信息
     @Update("UPDATE sys_user SET nickname = #{nickname}, password = #{password}, role = #{role} WHERE id = #{id}")

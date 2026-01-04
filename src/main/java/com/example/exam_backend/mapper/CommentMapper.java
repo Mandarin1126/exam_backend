@@ -12,7 +12,7 @@ public interface CommentMapper {
     int insert(Comment comment);
 
     // 单个参数，不需要 @Param
-    @Select("SELECT c.*, u.nickname " +
+    @Select("SELECT c.*, u.username " +
             "FROM sys_comment c " +
             "LEFT JOIN sys_user u ON c.user_id = u.id " +
             "WHERE c.question_id = #{questionId} " +
@@ -36,4 +36,7 @@ public interface CommentMapper {
 
     @Update("UPDATE sys_comment SET report_count = report_count + 1 WHERE id = #{id}")
     void incrementReport(Integer id);
+
+    @Select("SELECT * FROM sys_comment WHERE user_id = #{userId} ORDER BY create_time DESC")
+    List<Comment> selectByUserId(Integer userId);
 }
