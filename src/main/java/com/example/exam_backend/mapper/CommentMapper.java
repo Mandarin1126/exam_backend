@@ -39,4 +39,14 @@ public interface CommentMapper {
 
     @Select("SELECT * FROM sys_comment WHERE user_id = #{userId} ORDER BY create_time DESC")
     List<Comment> selectByUserId(Integer userId);
+
+    @Select("SELECT * FROM sys_comment WHERE id = #{id}")
+    Comment selectById(Integer id);
+
+    // 删除评论
+    @Delete("DELETE FROM sys_comment WHERE id = #{id}")
+    void deleteById(Integer id);
+
+    @Delete("DELETE FROM sys_comment_action WHERE comment_id = #{commentId}")
+    void deleteActionsByCommentId(Integer commentId);
 }

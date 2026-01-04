@@ -11,7 +11,7 @@ public interface UserMapper {
     User login(@Param("username") String username, @Param("password") String password);
 
     // 注册/新增用户
-    @Insert("INSERT INTO sys_user(username, password, nickname, role) VALUES(#{username}, #{password}, #{nickname}, #{role})")
+    @Insert("INSERT INTO sys_user(username, password,role,status) VALUES(#{username}, #{password}, #{role},#{status})")
     int insert(User user);
 
     // 检查用户名是否存在
@@ -38,4 +38,7 @@ public interface UserMapper {
     // 修改用户信息
     @Update("UPDATE sys_user SET nickname = #{nickname}, password = #{password}, role = #{role} WHERE id = #{id}")
     int update(User user);
+
+    @Select("SELECT * FROM sys_user WHERE id = #{id}")
+    User findById(Integer id);
 }

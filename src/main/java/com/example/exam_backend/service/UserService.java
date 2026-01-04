@@ -25,7 +25,7 @@ public class UserService {
         }
         // 2. 设置默认值
         if (user.getRole() == null) user.setRole("USER");
-        if (user.getNickname() == null) user.setNickname("新同学");
+
 
         userMapper.insert(user);
         return "success";

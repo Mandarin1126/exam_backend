@@ -83,15 +83,17 @@ public class UserController {
             User exist = userMapper.findByUsername(user.getUsername());
             if (exist != null) {
                 result.put("code", 400);
-                result.put("msg", "用户名已存在");
+                result.put("msg", "哎呀，这个名字被抢注了 🙈"); // 皮一下，文案更轻松
                 return result;
             }
+            user.setRole("USER");
+            user.setStatus("NORMAL");
             userMapper.insert(user);
             result.put("code", 200);
-            result.put("msg", "注册成功");
+            result.put("msg", "欢迎加入 EazyExam！🚀");
         } catch (Exception e) {
             result.put("code", 500);
-            result.put("msg", "注册失败");
+            result.put("msg", "服务器开小差了，注册失败 😵");
         }
         return result;
     }
