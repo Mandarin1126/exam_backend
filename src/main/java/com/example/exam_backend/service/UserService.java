@@ -12,32 +12,44 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    // 1. 登录业务
     public User login(String username, String password) {
-        return userMapper.login(username, password);
+        User user = userMapper.login(username, password);
+
+        if (user == null) {
+            throw new IllegalArgumentException("账号或密码错误");
+        }
+        if ("BANNED".equals(user.getStatus())) {
+            throw new SecurityException("该账号严重违规，已被永久封禁！");
+        }
+        return user;
     }
 
-    // 注册逻辑
-    public String register(User user) {
-        // 1. 先查用户名是否存在
+    // 2. 注册业务
+    public void register(User user) {
+        // 查重
         User exist = userMapper.findByUsername(user.getUsername());
         if (exist != null) {
-            return "用户名已存在";
+            throw new IllegalArgumentException("哎呀，这个名字被抢注了 🙈");
         }
-        // 2. 设置默认值
-        if (user.getRole() == null) user.setRole("USER");
-
-
+        // 设置默认值
+        user.setRole("USER");
+        user.setStatus("NORMAL");
         userMapper.insert(user);
-        return "success";
     }
 
-    // 管理员：查列表
+    // 3. 获取所有用户
     public List<User> getUserList() {
         return userMapper.selectList();
     }
 
-    // 管理员：删除
-    public void deleteUser(Integer id) {
-        userMapper.deleteById(id);
+    // 4. 修改用户状态
+    public void updateUserStatus(Integer id, String status) {
+        userMapper.updateStatus(id, status);
+    }
+
+    // 5. 根据ID查用户 (给其他Service用的辅助方法)
+    public User getUserById(Integer id) {
+        return userMapper.findById(id);
     }
 }

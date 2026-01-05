@@ -13,4 +13,10 @@ public class Question {
     private String answer;
 
     private String explanation; // 对应数据库的新字段名
+
+    // 审核状态: 0-待审核, 1-已通过, 2-已拒绝
+    private Integer reviewStatus;
+
+    // 上传者ID
+    private Integer uploaderId;
 }
